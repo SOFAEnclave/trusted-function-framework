@@ -1,0 +1,141 @@
+syntax = "proto2";
+
+package tee;
+
+////////////////////////////////////////////////////////////////
+/// Common Messages
+////////////////////////////////////////////////////////////////
+
+message KeyPair {
+  optional string public_key = 1;
+  optional string private_key = 2;
+  optional bytes aes_key = 3;
+}
+
+/// AES-GCM symmetric encryption/decryption data
+message SymmetricKeyEncrypted {
+  optional bytes cipher = 1;
+  optional bytes mac = 2;
+  optional bytes aad = 3;
+  optional bytes iv = 4;
+}
+
+/// Digital envelope encryption/decryption data
+message DigitalEnvelopeEncrypted {
+  // symmetric cipher data
+  optional SymmetricKeyEncrypted aes_cipher = 1;
+  // RSA public encrypted symmetric key
+  optional bytes encrypted_key = 2;
+  // SHA256 hash value
+  optional bytes plain_hash = 3;
+  // RSA private key sign the above plain HASH value
+  // The public key in RA report will verify this signature
+  optional bytes plain_hash_sig = 4;
+}
+
+/// Store the IAS response data
+message IasReport {
+  optional string b64_signature = 1;
+  optional string signing_cert = 2;
+  optional string advisory_url = 3;
+  optional string advisory_ids = 4;
+  optional string response_body = 5;
+  optional string epid_pseudonym = 6;
+  optional string quote_status = 7;
+  optional string b16_platform_info_blob = 8;
+  optional string b64_quote_body = 9;
+}
+
+/// Authentication by RA report
+message RaReportAuthentication {
+  optional IasReport ias_report = 1;
+  optional string public_key = 2;
+}
+
+/// Authentication by RSA private key signature
+message SignatureAuthentication {
+  optional bytes signature = 1;
+  optional bytes data = 2;
+}
+
+/// Enclave Information, which also used as enclave macch rule
+message EnclaveInformation {
+  // Hex string enclave hash measurement
+  optional string hex_mrenclave = 1;
+  // Hex string enclave signer measurement
+  optional string hex_mrsigner = 2;
+  // Product ID
+  optional string hex_prod_id = 3;
+  // Minimal ISV SVN [optional]
+  optional string hex_min_isvsvn = 4;
+  // userdata
+  optional string hex_user_data = 5;
+  // 64 bytes spid
+  optional string hex_spid = 6;
+}
+
+/// Enclave match rules are used when verify the RA report.
+/// For example, use mrsigner and prod_id to trust all the enclaves
+/// of this ProdID/MRSIGNER. And multi-rules are  allowed.
+message EnclaveMatchRules {
+  repeated EnclaveInformation entries = 1;
+}
+
+////////////////////////////////////////////////////////////////
+/// PbFunction Messages
+////////////////////////////////////////////////////////////////
+
+/// PbFunction call attributes
+message PbCallAttributes {
+  optional int64 enclave_id = 1;
+  optional string enclave_name = 2;
+  optional string function_name = 3;
+}
+
+/// Define a default request type for PbFunctions
+message PbGenericRequest {
+  repeated bytes argv = 1;
+}
+
+/// Define a default response type for PbFunctions
+message PbGenericResponse {
+  repeated bytes result = 1;
+}
+
+/// Request for InitializeEnclave Trusted PbFunction
+message PbInitializeEnclaveRequest {
+  optional int64 enclave_id = 1;
+  optional string enclave_name = 2;
+  // sealed KeyPair identity keys
+  optional bytes sealed_identity = 3;
+  optional bytes target_info = 4;
+  optional bytes user_data = 5;
+  optional string hex_spid = 6;
+}
+
+/// Response for InitializeEnclave Trusted PbFunction
+message PbInitializeEnclaveResponse {
+  optional string enclave_public_key = 1;
+  // only exists when new KeyPair identity keys are created
+  optional bytes enclave_identity = 2;
+  optional bytes enclave_report = 3;
+  optional EnclaveInformation enclave_info = 4;
+}
+
+/// Request for remote trusted function call
+/// If the client is a enclave node, Ra report is used as authentication.
+/// If the client is a normal node, Signature is used as authentication.
+message PbTeeRunRemoteRequest {
+  optional RaReportAuthentication ra_auth = 1;
+  optional SignatureAuthentication sig_auth = 2;
+  optional string function_name = 3;
+  optional PbGenericRequest function_param = 4;
+}
+
+/// Response for remote trusted function call
+/// RaReportAuthentication should be verified before use the result.
+message PbTeeRunRemoteResponse {
+  optional RaReportAuthentication ra_auth = 1;
+  optional PbGenericResponse result = 2;
+}
+

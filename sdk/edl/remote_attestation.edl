@@ -1,0 +1,14 @@
+enclave {
+    include "tee/common/error.h"
+    include "sgx_urts.h"
+    include "sgx_report.h"
+
+    trusted {
+        public TeeErrorCode ecall_RaVerifyReport(
+            [in] sgx_target_info_t *target_info,
+            [in] sgx_report_t *target_report);
+    };
+
+    untrusted {
+    };
+};

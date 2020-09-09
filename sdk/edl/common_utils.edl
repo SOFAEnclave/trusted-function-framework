@@ -1,0 +1,15 @@
+enclave {
+    include "tee/common/error.h"
+    include "sgx_urts.h"
+    include "sgx_report.h"
+
+    trusted {
+        public TeeErrorCode ecall_GetRand(
+            [out, size=len] uint8_t *rand, uint32_t len);
+    };
+
+    untrusted {
+        void ocall_PrintMessage(
+            [in, string] const char *message);
+    };
+};

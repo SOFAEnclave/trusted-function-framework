@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.5)
+project(kubetee-tff)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+find_package(SGX REQUIRED)
+
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/out)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/out)
+set(TEE_TOP_DIR ${CMAKE_SOURCE_DIR})
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
+if(SGX_HW STREQUAL "OFF")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSGX_SIM_MODE=true")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DSGX_SIM_MODE=false")
+endif()
+if(SGX_MODE STREQUAL "Debug")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g2 -DDEBUG -UNDEBUG -UEDEBUG")
+endif()
+if(WITHOUT_LOG STREQUAL "ON")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNOLOG")
+endif()
+
+add_subdirectory(third_party/protobuf-cpp/src/google/protobuf)
+add_subdirectory(sdk)
+add_subdirectory(enclave_service)
+
+if(BUILD_SAMPLES STREQUAL "ON")
+    add_subdirectory(enclave_samples)
+endif()

@@ -1,0 +1,10 @@
+[submodule "third_party/protobuf-cpp"]
+	path = third_party/protobuf-cpp
+	url = https://github.com/SOFAEnclave/protobuf-sgx.git
+	branch = v3.7.1
+[submodule "third_party/cppcodec"]
+	path = third_party/cppcodec
+	url = https://github.com/tplgy/cppcodec.git
+[submodule "third_party/rapidjson"]
+	path = third_party/rapidjson
+	url = https://github.com/Tencent/rapidjson.git

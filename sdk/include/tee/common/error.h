@@ -1,0 +1,188 @@
+#ifndef SDK_INCLUDE_TEE_COMMON_ERROR_H_
+#define SDK_INCLUDE_TEE_COMMON_ERROR_H_
+
+// clang-format off
+
+// For Openssl error code
+typedef enum {
+  OPENSSL_ERROR = 0,
+  OPENSSL_SUCCESS = 1,
+} OpensslErrorCode;
+
+// We want to use TeeErrorCode to include the error code from intel sdk and
+// also the ra sdk code, and to be compatible with the following changes
+// in future intel SDK version. So, we use unsigned int type here.
+typedef int TeeErrorCode;
+
+#define TEE_MK_ERROR(x)                          (0xFFFF0000&((x) << 16))
+#define SGX_MK_ERROR(x)                          (0x00000000|(x))
+
+// All SGX_MK_ERROR error code are from sgx_error.h,
+// we simple include it to return error code from intel sdk directly.
+#define TEE_SUCCESS                              SGX_MK_ERROR(0x0000)
+
+#define TEE_ERROR_UNEXPECTED                     SGX_MK_ERROR(0x0001)
+#define TEE_ERROR_INVALID_PARAMETER              SGX_MK_ERROR(0x0002)
+#define TEE_ERROR_OUT_OF_MEMORY                  SGX_MK_ERROR(0x0003)
+#define TEE_ERROR_ENCLAVE_LOST                   SGX_MK_ERROR(0x0004)
+#define TEE_ERROR_INVALID_STATE                  SGX_MK_ERROR(0x0005)
+
+#define TEE_ERROR_INVALID_FUNCTION               SGX_MK_ERROR(0x1001)
+#define TEE_ERROR_OUT_OF_TCS                     SGX_MK_ERROR(0x1003)
+#define TEE_ERROR_ENCLAVE_CRASHED                SGX_MK_ERROR(0x1006)
+#define TEE_ERROR_ECALL_NOT_ALLOWED              SGX_MK_ERROR(0x1007)
+#define TEE_ERROR_OCALL_NOT_ALLOWED              SGX_MK_ERROR(0x1008)
+#define TEE_ERROR_STACK_OVERRUN                  SGX_MK_ERROR(0x1009)
+
+#define TEE_ERROR_UNDEFINED_SYMBOL               SGX_MK_ERROR(0x2000)
+#define TEE_ERROR_INVALID_ENCLAVE                SGX_MK_ERROR(0x2001)
+#define TEE_ERROR_INVALID_ENCLAVE_ID             SGX_MK_ERROR(0x2002)
+#define TEE_ERROR_INVALID_SIGNATURE              SGX_MK_ERROR(0x2003)
+#define TEE_ERROR_NDEBUG_ENCLAVE                 SGX_MK_ERROR(0x2004)
+#define TEE_ERROR_OUT_OF_EPC                     SGX_MK_ERROR(0x2005)
+#define TEE_ERROR_NO_DEVICE                      SGX_MK_ERROR(0x2006)
+#define TEE_ERROR_MEMORY_MAP_CONFLICT            SGX_MK_ERROR(0x2007)
+#define TEE_ERROR_INVALID_METADATA               SGX_MK_ERROR(0x2009)
+#define TEE_ERROR_DEVICE_BUSY                    SGX_MK_ERROR(0x200c)
+#define TEE_ERROR_INVALID_VERSION                SGX_MK_ERROR(0x200d)
+#define TEE_ERROR_MODE_INCOMPATIBLE              SGX_MK_ERROR(0x200e)
+#define TEE_ERROR_ENCLAVE_FILE_ACCESS            SGX_MK_ERROR(0x200f)
+#define TEE_ERROR_INVALID_MISC                   SGX_MK_ERROR(0x2010)
+#define TEE_ERROR_INVALID_LAUNCH_TOKEN           SGX_MK_ERROR(0x2011)
+
+#define TEE_ERROR_MAC_MISMATCH                   SGX_MK_ERROR(0x3001)
+#define TEE_ERROR_INVALID_ATTRIBUTE              SGX_MK_ERROR(0x3002)
+#define TEE_ERROR_INVALID_CPUSVN                 SGX_MK_ERROR(0x3003)
+#define TEE_ERROR_INVALID_ISVSVN                 SGX_MK_ERROR(0x3004)
+#define TEE_ERROR_INVALID_KEYNAME                SGX_MK_ERROR(0x3005)
+
+#define TEE_ERROR_SERVICE_UNAVAILABLE            SGX_MK_ERROR(0x4001)
+#define TEE_ERROR_SERVICE_TIMEOUT                SGX_MK_ERROR(0x4002)
+#define TEE_ERROR_AE_INVALID_EPIDBLOB            SGX_MK_ERROR(0x4003)
+#define TEE_ERROR_SERVICE_INVALID_PRIVILEGE      SGX_MK_ERROR(0x4004)
+#define TEE_ERROR_EPID_MEMBER_REVOKED            SGX_MK_ERROR(0x4005)
+#define TEE_ERROR_UPDATE_NEEDED                  SGX_MK_ERROR(0x4006)
+#define TEE_ERROR_NETWORK_FAILURE                SGX_MK_ERROR(0x4007)
+#define TEE_ERROR_AE_SESSION_INVALID             SGX_MK_ERROR(0x4008)
+#define TEE_ERROR_BUSY                           SGX_MK_ERROR(0x400a)
+#define TEE_ERROR_MC_NOT_FOUND                   SGX_MK_ERROR(0x400c)
+#define TEE_ERROR_MC_NO_ACCESS_RIGHT             SGX_MK_ERROR(0x400d)
+#define TEE_ERROR_MC_USED_UP                     SGX_MK_ERROR(0x400e)
+#define TEE_ERROR_MC_OVER_QUOTA                  SGX_MK_ERROR(0x400f)
+#define TEE_ERROR_KDF_MISMATCH                   SGX_MK_ERROR(0x4011)
+#define TEE_ERROR_UNRECOGNIZED_PLATFORM          SGX_MK_ERROR(0x4012)
+
+#define TEE_ERROR_NO_PRIVILEGE                   SGX_MK_ERROR(0x5002)
+
+#define TEE_ERROR_PCL_ENCRYPTED                  SGX_MK_ERROR(0x6001)
+#define TEE_ERROR_PCL_NOT_ENCRYPTED              SGX_MK_ERROR(0x6002)
+#define TEE_ERROR_PCL_MAC_MISMATCH               SGX_MK_ERROR(0x6003)
+#define TEE_ERROR_PCL_SHA_MISMATCH               SGX_MK_ERROR(0x6004)
+#define TEE_ERROR_PCL_GUID_MISMATCH              SGX_MK_ERROR(0x6005)
+
+#define TEE_ERROR_FILE_BAD_STATUS                SGX_MK_ERROR(0x7001)
+#define TEE_ERROR_FILE_NO_KEY_ID                 SGX_MK_ERROR(0x7002)
+#define TEE_ERROR_FILE_NAME_MISMATCH             SGX_MK_ERROR(0x7003)
+#define TEE_ERROR_FILE_NOT_RA_FILE               SGX_MK_ERROR(0x7004)
+#define TEE_ERROR_FILE_CANT_OPEN_RECOVERY_FILE   SGX_MK_ERROR(0x7005)
+#define TEE_ERROR_FILE_CANT_WRITE_RECOVERY_FILE  SGX_MK_ERROR(0x7006)
+#define TEE_ERROR_FILE_RECOVERY_NEEDED           SGX_MK_ERROR(0x7007)
+#define TEE_ERROR_FILE_FLUSH_FAILED              SGX_MK_ERROR(0x7008)
+#define TEE_ERROR_FILE_CLOSE_FAILED              SGX_MK_ERROR(0x7009)
+
+#define RA_INTERNAL_ERROR_ENCLAVE_CREATE_INTERRUPTED SGX_MK_ERROR(0xF001)
+
+// The following error code are used in tee code
+#define TEE_ERROR_SGX_GENERIC                    TEE_MK_ERROR(0x0000)
+#define TEE_ERROR_GENERIC                        TEE_MK_ERROR(0x0001)
+#define TEE_ERROR_PARAMETERS                     TEE_MK_ERROR(0x0002)
+#define TEE_ERROR_MALLOC                         TEE_MK_ERROR(0x0003)
+#define TEE_ERROR_ENCLAVE_NOTINITIALIZED         TEE_MK_ERROR(0x0004)
+#define TEE_ERROR_REPORT_DATA_SIZE               TEE_MK_ERROR(0x0005)
+#define TEE_ERROR_PARSE_CONFIGURATIONS           TEE_MK_ERROR(0x0006)
+#define TEE_ERROR_PARSE_COMMANDLINE              TEE_MK_ERROR(0x0007)
+#define TEE_ERROR_SMALL_BUFFER                   TEE_MK_ERROR(0x0008)
+#define TEE_ERROR_NOT_IMPLEMENTED                TEE_MK_ERROR(0x0009)
+#define TEE_ERROR_CREATE_ENCLAVE                 TEE_MK_ERROR(0x000A)
+
+#define TEE_ERROR_FILE_OPEN                      TEE_MK_ERROR(0x0101)
+#define TEE_ERROR_FILE_READ                      TEE_MK_ERROR(0x0102)
+#define TEE_ERROR_FILE_WRITE                     TEE_MK_ERROR(0x0103)
+#define TEE_ERROR_FILE_EXIST                     TEE_MK_ERROR(0x0104)
+
+#define TEE_ERROR_CONF_LOAD                      TEE_MK_ERROR(0x0201)
+#define TEE_ERROR_CONF_NOTEXIST                  TEE_MK_ERROR(0x0202)
+
+#define TEE_ERROR_RA_NOTINITIALIZED              TEE_MK_ERROR(0x0301)
+#define TEE_ERROR_RA_LOAD_CA_CERT                TEE_MK_ERROR(0x0302)
+#define TEE_ERROR_RA_INVALID_AS_CERTS            TEE_MK_ERROR(0x0303)
+#define TEE_ERROR_RA_TOO_MUCH_REPORT_DATA        TEE_MK_ERROR(0x0304)
+#define TEE_ERROR_RA_IDENTITY_NOTINITIALIZED     TEE_MK_ERROR(0x0305)
+
+#define TEE_ERROR_RA_VERIFY_SIG_INIT             TEE_MK_ERROR(0x0310)
+#define TEE_ERROR_RA_VERIFY_CERT_DENIED          TEE_MK_ERROR(0x0311)
+#define TEE_ERROR_RA_VERIFY_LOAD_CERT            TEE_MK_ERROR(0x0312)
+#define TEE_ERROR_RA_VERIFY_GET_PUBKEY           TEE_MK_ERROR(0x0313)
+#define TEE_ERROR_RA_VERIFY_GET_RSAKEY           TEE_MK_ERROR(0x0314)
+#define TEE_ERROR_RA_VERIFY_SIGNATURE            TEE_MK_ERROR(0x0315)
+#define TEE_ERROR_RA_VERIFY_QUOTE_STATUS         TEE_MK_ERROR(0x0316)
+#define TEE_ERROR_RA_VERIFY_SIGNING_TYPE         TEE_MK_ERROR(0x0317)
+#define TEE_ERROR_RA_VERIFY_SPID_NAME            TEE_MK_ERROR(0x0318)
+#define TEE_ERROR_RA_VERIFY_PUBKEY               TEE_MK_ERROR(0x0319)
+#define TEE_ERROR_RA_VERIFY_MRENCLAVE            TEE_MK_ERROR(0x031A)
+#define TEE_ERROR_RA_VERIFY_MRSIGNER             TEE_MK_ERROR(0x031B)
+#define TEE_ERROR_RA_VERIFY_USER_DATA            TEE_MK_ERROR(0x031C)
+#define TEE_ERROR_RA_VERIFY_ISV_PORDID           TEE_MK_ERROR(0x031D)
+#define TEE_ERROR_RA_VERIFY_ISV_SVN              TEE_MK_ERROR(0x031E)
+
+#define TEE_ERROR_CRYPTO_SHA256                  TEE_MK_ERROR(0x0401)
+#define TEE_ERROR_CRYPTO_BASE64                  TEE_MK_ERROR(0x0402)
+#define TEE_ERROR_CRYPTO_RSA                     TEE_MK_ERROR(0x0403)
+#define TEE_ERROR_CRYPTO_CERT                    TEE_MK_ERROR(0x0404)
+#define TEE_ERROR_CRYPTO_RAND                    TEE_MK_ERROR(0x0405)
+#define TEE_ERROR_CRYPTO_RSA_SIGN                TEE_MK_ERROR(0x0406)
+#define TEE_ERROR_CRYPTO_RSA_VERIFY              TEE_MK_ERROR(0x0407)
+#define TEE_ERROR_CRYPTO_RSA_ENCRYPT             TEE_MK_ERROR(0x0408)
+#define TEE_ERROR_CRYPTO_RSA_DECRYPT             TEE_MK_ERROR(0x0409)
+
+#define TEE_ERROR_CRYPTO_AES_OUT_OF_MEMORY       TEE_MK_ERROR(0x0440)
+#define TEE_ERROR_CRYPTO_AES_KEY_INVALID         TEE_MK_ERROR(0x0441)
+#define TEE_ERROR_CRYPTO_AES_KEY_GENERATE        TEE_MK_ERROR(0x0442)
+#define TEE_ERROR_CRYPTO_AES_IV_GENERATE         TEE_MK_ERROR(0x0443)
+#define TEE_ERROR_CRYPTO_AES_ENCRYPT             TEE_MK_ERROR(0x0444)
+#define TEE_ERROR_CRYPTO_AES_DECRYPT             TEE_MK_ERROR(0x0445)
+
+#define TEE_ERROR_IAS_CLIENT_INIT                TEE_MK_ERROR(0x0501)
+#define TEE_ERROR_IAS_CLIENT_CONNECT             TEE_MK_ERROR(0x0502)
+#define TEE_ERROR_IAS_CLIENT_GETSIGRL            TEE_MK_ERROR(0x0503)
+#define TEE_ERROR_IAS_CLIENT_GETREPORT           TEE_MK_ERROR(0x0504)
+#define TEE_ERROR_IAS_CLIENT_UNESCAPE            TEE_MK_ERROR(0x0505)
+#define TEE_ERROR_IAS_LOAD_CACHED_REPORT         TEE_MK_ERROR(0x0506)
+
+#define TEE_ERROR_PROTOBUF_IFSTREAM              TEE_MK_ERROR(0x0601)
+#define TEE_ERROR_PROTOBUF_OFSTREAM              TEE_MK_ERROR(0x0602)
+#define TEE_ERROR_PROTOBUF_SERIALIZE             TEE_MK_ERROR(0x0603)
+#define TEE_ERROR_PROTOBUF_PARSE                 TEE_MK_ERROR(0x0604)
+
+#define TEE_ERROR_PBCALL_FUNCTION                TEE_MK_ERROR(0x0701)
+#define TEE_ERROR_PBCALL_ENCLAVE_ID              TEE_MK_ERROR(0x0702)
+
+#define TEE_ERROR_KV_NOTEXIST                    TEE_MK_ERROR(0x0801)
+#define TEE_ERROR_KV_SET                         TEE_MK_ERROR(0x0802)
+#define TEE_ERROR_KV_GET                         TEE_MK_ERROR(0x0803)
+
+#define TEE_ERROR_LA_SESSION_NOT_EXISTS          TEE_MK_ERROR(0x0901)
+#define TEE_ERROR_LA_INVALID_SESSION_STATUS      TEE_MK_ERROR(0x0902)
+#define TEE_ERROR_LA_CHECK_IDENTITY              TEE_MK_ERROR(0x0903)
+#define TEE_ERROR_LA_CLOSE_SESSION               TEE_MK_ERROR(0x0904)
+#define TEE_ERROR_LA_GET_SECRET                  TEE_MK_ERROR(0x0905)
+#define TEE_ERROR_LA_PROCESS_SECRET              TEE_MK_ERROR(0x0906)
+
+#define TEE_ERROR_SDK_UNEXPECTED                 TEE_MK_ERROR(0x0FFF)
+
+#define TEE_ERROR_CODE(rc) (rc)
+#define TEE_ERROR_MERGE(ecallcode, retcode) ((ecallcode) | (retcode))
+
+// clang-format on
+
+#endif  // SDK_INCLUDE_TEE_COMMON_ERROR_H_

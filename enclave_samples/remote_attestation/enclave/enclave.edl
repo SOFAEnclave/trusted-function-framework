@@ -1,0 +1,14 @@
+/* Enclave.edl - Top EDL file. */
+
+enclave {
+    from "sgx_tsgxssl.edl" import *;
+    from "kubetee.edl" import *;
+
+    trusted {
+        public void ecall_say_hello();
+    };
+
+    untrusted {
+        void ocall_print_string([in, string] const char *str);
+    };
+};

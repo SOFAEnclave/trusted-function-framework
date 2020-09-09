@@ -1,0 +1,37 @@
+# Dependencies for KubeTEE TFF
+
+KubeTEE TFF uses some third party open source code, please refer to
+the project URL for their licenses in detail.
+
+If you find we have lost any dependency, please tell us by [email](SOFAEnclaveSecurity@list.alibaba-inc.com),
+and we will add it as soon as possible.
+
+
+## Third-party source code:
+
+- [SGX CMake build](https://github.com/zhang-xin/SGX-CMake.git)
+- [openssl](https://www.openssl.org/source/openssl-1.1.1c.tar.gz)
+- [Intel SGX openssl](https://github.com/intel/intel-sgx-ssl.git)
+- [cppcodec for base64 encode/decode](https://github.com/tplgy/cppcodec.git)
+- [rapidjson as json parser](https://github.com/Tencent/rapidjson)
+- [libcurl as http client](https://github.com/curl/curl)
+- [protobuf](https://github.com/protocolbuffers/protobuf/releases/download/v3.7.1/protobuf-all-3.7.1.tar.gz)
+- [c-ares](https://c-ares.haxx.se/download/c-ares-1.14.0.tar.gz)
+- [grpc](https://github.com/grpc/grpc/archive/v1.19.1.tar.gz)
+- [Google cpplint.py](https://raw.githubusercontent.com/google/styleguide/gh-pages/cpplint/cpplint.py)
+
+
+## Runtime dependencies
+
+- [Intel SGX Drivers](https://github.com/intel/linux-sgx-driver) （Installed in host machine）
+- [Intel SGX PSW(Platform Software)](https://github.com/intel/linux-sgx) (Already installed in [base image](https://hub.docker.com/repository/docker/antkubetee/kubetee-dev-ubuntu18.04-grpc-sgx-ssl))
+- [protobuf-cpp-3.7.1](https://github.com/protocolbuffers/protobuf/releases/tag/v3.7.1)
+- docker
+
+
+## Deployment dependencies
+If you want to deploy your enclave application or service as pods in Kubernetes, the following dependencies are also required.
+
+- Kubernetes
+- [SGX device plugin](https://github.com/AliyunContainerService/sgx-device-plugin)
+- minikube (To setup you Kubernetes cluster quickly)

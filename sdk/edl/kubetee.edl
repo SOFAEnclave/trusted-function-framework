@@ -1,0 +1,24 @@
+enclave {
+    from "common_utils.edl" import *;
+    from "remote_attestation.edl" import *;
+
+    trusted {
+        public TeeErrorCode ecall_TeeRun(
+            [user_check] const char* attr_buf, size_t attr_len,
+            [in,size=req_len] const char *req_buf, size_t req_len,
+            [user_check] char** res_buf, [out]size_t* res_len);
+    };
+
+    untrusted {
+        TeeErrorCode ocall_UntrustedMemoryAlloc(
+            size_t size, [user_check] char** buf);
+
+        TeeErrorCode ocall_UntrustedMemoryFree(
+            [in] char** buf);
+
+        TeeErrorCode ocall_ReeRun(
+            [in,size=attr_len] const char* attr_buf, size_t attr_len,
+            [in,size=req_len] const char *req_buf, size_t req_len,
+            [out] char** res_buf, [out]size_t* res_len);
+    };
+};

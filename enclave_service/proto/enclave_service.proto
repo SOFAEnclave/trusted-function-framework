@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+import "kubetee.proto";
+
+package tee;
+
+service EnclaveService {
+  rpc TeeRunRemote(PbTeeRunRemoteRequest)
+    returns (PbTeeRunRemoteResponse) {
+  }
+}
