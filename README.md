@@ -37,6 +37,14 @@ $ ./dockerbuild.sh [--build Debug|PreRelease|Release]
 Please set the enclave SPID and IAS access key in the configuration file "deployment/conf/kubetee.json".
 You can apply the IAS access key and SPID from [here](https://api.portal.trustedservices.intel.com/EPID-attestation)
 
+And you need to generate the test certificates like this (for development and test only, should use formal certificates in product environment):
+
+```
+./tools/gencert gentest ./deployment/certs/
+```
+
+Then create the image with test certificates and configurations.
+
 ```
 $ ./deployemnt/create_image.sh
 ```
