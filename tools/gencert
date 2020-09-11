@@ -130,7 +130,7 @@ show_help() {
     echo "    gencrt <filename-prefix> <CN>"
     echo "    signcsr <csrfile> <crtfile> [days|or-default-365]"
     echo "    showcrt <crtfile>"
-    echo "    gendemo   #This command generate all ca/key/cert for demo"
+    echo "    gentest [outdir]  #This command generate all ca/key/cert for test"
 }
 
 case $1 in

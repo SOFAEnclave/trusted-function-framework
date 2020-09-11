@@ -20,7 +20,7 @@ set product IAS key and SPID in the configuration files, sign the configuration 
 ## Update sub-modules
 
 KubeTEE TFF uses some [third party code](https://github.com/SOFAEnclave/trusted-function-framework/blob/master/THIRD-PARTY-NOTICES),
-before you try the examples, please need to update the sub-modules firstly.
+before you try the examples, please update the sub-modules firstly.
 
 ```
 $ git submodule update --init --recursive
