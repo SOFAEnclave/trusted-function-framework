@@ -3,7 +3,6 @@
 CURRDIR="$(pwd)"
 REPONAME="$(basename $CURRDIR)"
 
-#IMAGE=reg.docker.alibaba-inc.com/tiya/kubetee-dev-alios7u2-grpc-sgx-ssl:1.0
 IMAGE="antkubetee/kubetee-dev-ubuntu18.04-grpc-sgx-ssl:1.0"
 CONTAINERNAME=${2:-"kubetee-dev-ubuntu1804-$REPONAME"}
 

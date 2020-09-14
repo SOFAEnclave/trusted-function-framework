@@ -8,7 +8,7 @@ Untrusted-Function out of enclave, without caring about the underlying implement
 TFF also provides a enclave service example via gRPC. This example shows how a remote client can easily
 access the enclave via remote trusted-function call.
 
-![KubeTEE TFF overview](https://github.com/SOFAEnclave/trusted-function-framework/blob/master/docs/tff.jpg)
+![KubeTEE TFF overview](docs/tff.jpg)
 
 
 # Quick Start
@@ -19,7 +19,7 @@ set product IAS key and SPID in the configuration files, sign the configuration 
 
 ## Update sub-modules
 
-KubeTEE TFF uses some [third party code](https://github.com/SOFAEnclave/trusted-function-framework/blob/master/THIRD-PARTY-NOTICES),
+KubeTEE TFF uses some [third party code](THIRD-PARTY-NOTICES),
 before you try the examples, please update the sub-modules firstly.
 
 ```
@@ -37,7 +37,7 @@ $ ./dockerbuild.sh [--build Debug|PreRelease|Release]
 Please set the enclave SPID and IAS access key in the configuration file "deployment/conf/kubetee.json".
 You can apply the IAS access key and SPID from [here](https://api.portal.trustedservices.intel.com/EPID-attestation)
 
-And you need to generate the test certificates like this (for development and test only, should use formal certificates in product environment):
+And you also need to generate the test certificates like this (for development and test only, should use formal certificates in product environment):
 
 ```
 ./tools/gencert gentest ./deployment/certs/
@@ -120,4 +120,4 @@ Anyone is welcome to provide any form of contribution, please see CONTRIBUTING.m
 # License
 
 KubeTEE TFF is released by Ant Group under Apache 2.0 License.
-Please see the copyright information [here](https://github.com/SOFAEnclave/trusted-function-framework/blob/master/LICENSE) for detail.
+Please see the copyright information [here](LICENSE) for detail.
