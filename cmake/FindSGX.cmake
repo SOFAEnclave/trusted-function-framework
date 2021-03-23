@@ -104,7 +104,7 @@ if(SGX_FOUND)
     endif()
 
     set(ENCLAVE_INC_FLAGS "-I${SGX_INCLUDE_DIR} -I${SGX_TLIBC_INCLUDE_DIR} -I${SGX_LIBCXX_INCLUDE_DIR}")
-    set(ENCLAVE_C_FLAGS "${SGX_COMMON_CFLAGS} -nostdinc -fvisibility=hidden -fpie -fstack-protector-strong ${ENCLAVE_INC_FLAGS}")
+    set(ENCLAVE_C_FLAGS "${SGX_COMMON_CFLAGS} -nostdinc -fvisibility=hidden -fpie -fstack-protector-strong -ffunction-sections -fdata-sections ${ENCLAVE_INC_FLAGS}")
     set(ENCLAVE_CXX_FLAGS "${ENCLAVE_C_FLAGS} -nostdinc++")
 
     set(APP_INC_FLAGS "-I${SGX_PATH}/include")
@@ -199,15 +199,16 @@ if(SGX_FOUND)
         endforeach()
 
         target_link_libraries(${target} "${SGX_COMMON_CFLAGS} \
+            -Wl,-z,relro,-z,now,-z,noexecstack \
             -Wl,--no-undefined -nostdlib -nodefaultlibs -nostartfiles -L${SGX_LIBRARY_PATH} \
             -Wl,--whole-archive -l${SGX_TRTS_LIB} -Wl,--no-whole-archive \
             -L/opt/intel/sgxssl/lib64 \
             -Wl,--whole-archive -lsgx_tsgxssl -Wl,--no-whole-archive \
-            -Wl,--start-group ${TLIB_LIST} -lsgx_tstdc -lsgx_tcxx -lsgx_tkey_exchange -lsgx_tcrypto -l${SGX_TSVC_LIB} -lsgx_tsgxssl_crypto -Wl,--end-group \
+            -Wl,--start-group ${TLIB_LIST} -lsgx_tstdc -lsgx_tcxx -lsgx_tkey_exchange -lsgx_tcrypto -l${SGX_TSVC_LIB} -lsgx_pthread -lsgx_tsgxssl_crypto -Wl,--end-group \
             -Wl,-Bstatic -Wl,-Bsymbolic -Wl,--no-undefined \
             -Wl,-pie,-eenclave_entry -Wl,--export-dynamic \
             ${LDSCRIPT_FLAG} \
-            -Wl,--defsym,__ImageBase=0")
+	    -Wl,--defsym,__ImageBase=0 -Wl,--gc-sections")
     endfunction()
 
     # sign the enclave, according to configurations one-step or two-step signing will be performed.

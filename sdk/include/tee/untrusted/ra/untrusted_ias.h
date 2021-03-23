@@ -4,7 +4,7 @@
 #include <mutex>
 #include <string>
 
-#include "./sgx_uae_service.h"
+#include "./sgx_quote.h"
 #include "./sgx_urts.h"
 #include "./sgx_utils.h"
 
